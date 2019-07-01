@@ -1,5 +1,5 @@
 {
-    "connectUrl": "http://192.168.1.238:8080",
+    "connectUrl": "http://192.168.1.31:8080",
     "android": {
         "auth": {
             "method": "prompted-auth",

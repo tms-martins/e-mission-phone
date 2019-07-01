@@ -414,7 +414,7 @@ angular.module('emission.main.metrics',['nvd3', 'emission.services', 'ionic-date
       clonedData.is_return_aggregate = true;
       // TIAGO: change for PR
       var getMetricsResult = $http.post(
-        "http://192.168.1.238:8080/result/metrics/timestamp",
+        "http://192.168.1.31:8080/result/metrics/timestamp",
         clonedData)
       // var getMetricsResult = $http.post(
       //   "https://e-mission.eecs.berkeley.edu/result/metrics/timestamp",
@@ -500,6 +500,7 @@ angular.module('emission.main.metrics',['nvd3', 'emission.services', 'ionic-date
       })
 
       getAggMetricsFromServer().then(function(results) {
+          console.debug("TIAGO: results.data.aggregate_metrics " + JSON.stringify(results.data.aggregate_metrics, null, 2));
           $scope.fillAggregateValues(results.data.aggregate_metrics);
           $scope.uictrl.hasAggr = true;
           if (angular.isDefined($scope.chartDataAggr)) { //Only have to check one because
@@ -573,7 +574,7 @@ angular.module('emission.main.metrics',['nvd3', 'emission.services', 'ionic-date
    }
 
    $scope.fillAggregateValues = function(agg_metrics_arr) {
-        console.debug("TIAGO: fillAggregateValues() agg_metrics_arr " + JSON.stringify(agg_metrics_arr, null, 2));
+        // console.debug("TIAGO: fillAggregateValues() agg_metrics_arr " + JSON.stringify(agg_metrics_arr, null, 2));
         if (first) {
             var aggDuration = agg_metrics_arr[0].slice(0, 7);
             var aggMedianSpeed = agg_metrics_arr[1].slice(0, 7);
@@ -699,8 +700,8 @@ angular.module('emission.main.metrics',['nvd3', 'emission.services', 'ionic-date
    $scope.fillFootprintCardUserVals = function(userDistance, twoWeeksAgoDistance) {
       if (userDistance) {
         var userCarbonData = getSummaryDataRaw(userDistance, 'distance');
-        console.debug('TIAGO: fillFootprintCardUserVals userDistance ' + JSON.stringify(userDistance, null, 2));
-        console.debug("TIAGO: fillFootprintCardUserVals userCarbonData (distances, from getSummaryDataRaw)" + JSON.stringify(userCarbonData, null, 2));
+        // console.debug('TIAGO: fillFootprintCardUserVals userDistance ' + JSON.stringify(userDistance, null, 2));
+        // console.debug("TIAGO: fillFootprintCardUserVals userCarbonData (distances, from getSummaryDataRaw)" + JSON.stringify(userCarbonData, null, 2));
 
         var optimalDistance = getOptimalFootprintDistance(userDistance);
         var worstDistance   = getWorstFootprintDistance(userDistance);
@@ -882,7 +883,7 @@ angular.module('emission.main.metrics',['nvd3', 'emission.services', 'ionic-date
     }*/
 
     var getOptimalFootprintDistance = function(metrics){
-      console.debug("TIAGO: getOptimalFootprintDistance() metrics: " + JSON.stringify(metrics, null, 2));
+      // console.debug("TIAGO: getOptimalFootprintDistance() metrics: " + JSON.stringify(metrics, null, 2));
       var data = getDataFromMetrics(metrics);
       var distance = 0;
       var longTrip = 5000;
@@ -910,6 +911,7 @@ angular.module('emission.main.metrics',['nvd3', 'emission.services', 'ionic-date
     }
     var getAvgSummaryDataRaw = function(metrics, metric) {
         var data = getAvgDataFromMetrics(metrics);
+        console.debug("TIAGO getAvgSummaryDataRaw() data " + JSON.stringify(data, null, 2));
         for (var i = 0; i < data.length; i++) {
           var temp = 0;
           for (var j = 0; j < data[i].values.length; j++) {
